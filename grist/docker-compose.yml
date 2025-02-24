@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   grist-omnibus:
     image: gristlabs/grist-omnibus:latest
@@ -9,6 +10,7 @@ services:
       - EMAIL=admin@macloud.fr  # Email de l'admin initial
       - DOMAIN=grist.macloud.fr  # Votre domaine
       - HTTPS=auto  # HTTPS automatique via Let's Encrypt
+      - URL=https://grist.macloud.fr  # URL publique explicite
     depends_on:
       - ldap
     restart: unless-stopped
