@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  grist-omnibus:
+    image: gristlabs/grist-omnibus:latest
+    container_name: grist_omnibus
+    ports:
+      - "80:80"    # Port HTTP
+      - "443:443"  # Port HTTPS
+    volumes:
+      - grist_data:/persist
+      - ./dex.yaml:/custom/dex.yaml  # Configuration Dex pour LDAP
+    environment:
+      - EMAIL=admin@macloud.fr  # Email de l'admin initial
+      - DOMAIN=grist.macloud.fr  # Votre domaine
+      - HTTPS=auto  # HTTPS automatique via Let's Encrypt
+    depends_on:
+      - ldap
+    restart: unless-stopped
+
+  ldap:
+    image: osixia/openldap:latest
+    container_name: ldap_server
+    ports:
+      - "389:389"  # Port LDAP
+      - "636:636"  # Port LDAPS
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+      - ./ldap-init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/01-init.ldif
+    environment:
+      - LDAP_ORGANISATION=Macloud
+      - LDAP_DOMAIN=macloud.fr
+      - LDAP_ADMIN_PASSWORD=secret  # Mot de passe admin LDAP
+      - LDAP_CONFIG_PASSWORD=secret
+      - LDAP_BASE_DN=dc=macloud,dc=fr
+    restart: unless-stopped
+
+  ldap-admin:
+    image: ldapaccountmanager/lam:latest
+    container_name: ldap_admin
+    ports:
+      - "8080:80"  # Interface web sur le port 8080
+    volumes:
+      - lam_config:/var/www/html/config
+    environment:
+      - LAM_SKIP_PRECONFIGURE=true  # Configuration manuelle après démarrage
+    depends_on:
+      - ldap
+    restart: unless-stopped
+
+volumes:
+  grist_data:
+  ldap_data:
+  ldap_config:
+  lam_config:

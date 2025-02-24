@@ -1,0 +1,38 @@
+# Organisation de base
+dn: dc=macloud,dc=fr
+objectClass: dcObject
+objectClass: organization
+dc: macloud
+o: Macloud
+
+# Unité organisationnelle pour les utilisateurs
+dn: ou=people,dc=macloud,dc=fr
+objectClass: organizationalUnit
+ou: people
+
+# Utilisateur Admin
+dn: uid=admin,ou=people,dc=macloud,dc=fr
+objectClass: inetOrgPerson
+uid: admin
+cn: Admin User
+sn: User
+mail: admin@macloud.fr
+userPassword: admin123
+
+# Utilisateur 1
+dn: uid=user1,ou=people,dc=macloud,dc=fr
+objectClass: inetOrgPerson
+uid: user1
+cn: User One
+sn: One
+mail: user1@macloud.fr
+userPassword: test123
+
+# Utilisateur 2
+dn: uid=user2,ou=people,dc=macloud,dc=fr
+objectClass: inetOrgPerson
+uid: user2
+cn: User Two
+sn: Two
+mail: user2@macloud.fr
+userPassword: test123
