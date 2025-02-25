@@ -1,20 +1,22 @@
-issuer: https://grist.macloud.fr/dex  # URL de Dex avec votre domaine
+issuer: https://grist.macloud.fr/dex
 storage:
   type: sqlite3
   config:
     file: /persist/dex.db
+web:
+  http: 0.0.0.0:5556  # Dex écoute sur toutes les interfaces, port 5556
 connectors:
 - type: ldap
   id: ldap
   name: OpenLDAP
   config:
-    host: ldap:389  # Nom du service LDAP dans Docker Compose
-    insecureSkipVerify: true  # À désactiver en production avec SSL
+    host: ldap:389
+    insecureSkipVerify: true
     bindDN: cn=admin,dc=macloud,dc=fr
     bindPW: secret
     usernamePrompt: Email
     userSearch:
-      baseDN: ou=people,dc=macloud,dc=fr  # Branche pour vos utilisateurs
+      baseDN: ou=people,dc=macloud,dc=fr
       filter: "(objectClass=inetOrgPerson)"
       username: mail
       idAttr: uid
@@ -23,6 +25,6 @@ connectors:
 staticClients:
 - id: grist
   redirectURIs:
-  - "https://grist.macloud.fr/oauth2/callback"  # Callback pour votre domaine
+  - "https://grist.macloud.fr/oauth2/callback"
   name: "Grist"
   secret: un-secret-tres-long-et-securise  # Remplacez par une valeur sécurisée
