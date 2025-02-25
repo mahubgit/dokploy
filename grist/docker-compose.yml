@@ -14,7 +14,7 @@ services:
       - DOMAIN=grist.macloud.fr
       - URL=https://grist.macloud.fr
       - HTTPS=auto
-      - TEAM=macloud
+      - TEAM=macloud-team
     depends_on:
       - ldap
     restart: unless-stopped
@@ -26,7 +26,7 @@ services:
     image: osixia/openldap:latest
     container_name: ldap_server
     expose:
-      - "389"  # On expose uniquement LDAP, pas LDAPS
+      - "389"  # Uniquement LDAP
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
@@ -37,7 +37,9 @@ services:
       - LDAP_ADMIN_PASSWORD=secret
       - LDAP_CONFIG_PASSWORD=secret
       - LDAP_BASE_DN=dc=macloud,dc=fr
-      - LDAP_TLS=false  # Désactive TLS explicitement
+      - LDAP_TLS=false  # Désactive TLS
+      - LDAP_REPLICATION=false  # Désactive explicitement la réplication
+      - LDAP_READONLY_USER=false  # Pas d’utilisateur en lecture seule
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "ldapsearch", "-x", "-H", "ldap://localhost:389", "-D", "cn=admin,dc=macloud,dc=fr", "-w", "secret", "-b", "dc=macloud,dc=fr", "-s", "base"]
