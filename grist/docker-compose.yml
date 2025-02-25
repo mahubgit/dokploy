@@ -14,10 +14,10 @@ services:
       - DOMAIN=grist.macloud.fr
       - URL=https://grist.macloud.fr  # URL publique explicite
       - HTTPS=auto  # HTTPS géré par Dokploy ou Traefik
+      - TEAM=macloud  # Ajout de la variable TEAM
     depends_on:
       - ldap
     restart: unless-stopped
-    # Paramètres Dokploy : ports exposés pour le mapping
     labels:
       - "dokploy.domain=grist.macloud.fr"
       - "dokploy.port=443"  # Port principal du conteneur pour HTTPS
@@ -52,7 +52,6 @@ services:
     depends_on:
       - ldap
     restart: unless-stopped
-    # Paramètres Dokploy : domaine et port pour l'interface LAM
     labels:
       - "dokploy.domain=ldap-admin.macloud.fr"  # Sous-domaine pour LAM
       - "dokploy.port=80"  # Port interne du conteneur
