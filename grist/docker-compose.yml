@@ -3,24 +3,31 @@ services:
   grist-omnibus:
     image: gristlabs/grist-omnibus:latest
     container_name: grist_omnibus
+    expose:
+      - "80"    # Port HTTP interne au conteneur
+      - "443"   # Port HTTPS interne au conteneur
     volumes:
       - grist_data:/persist
       - ./dex.yaml:/custom/dex.yaml  # Configuration Dex pour LDAP
     environment:
-      - EMAIL=admin@macloud.fr  # Email de l'admin initial
-      - DOMAIN=grist.macloud.fr  # Votre domaine
-      - HTTPS=auto  # HTTPS automatique via Let's Encrypt
+      - EMAIL=admin@macloud.fr
+      - DOMAIN=grist.macloud.fr
       - URL=https://grist.macloud.fr  # URL publique explicite
+      - HTTPS=auto  # HTTPS géré par Dokploy ou Traefik
     depends_on:
       - ldap
     restart: unless-stopped
+    # Paramètres Dokploy : ports exposés pour le mapping
+    labels:
+      - "dokploy.domain=grist.macloud.fr"
+      - "dokploy.port=443"  # Port principal du conteneur pour HTTPS
 
   ldap:
     image: osixia/openldap:latest
     container_name: ldap_server
-    ports:
-      - "389:389"  # Port LDAP
-      - "636:636"  # Port LDAPS
+    expose:
+      - "389"  # Port LDAP interne
+      - "636"  # Port LDAPS interne
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
@@ -28,7 +35,7 @@ services:
     environment:
       - LDAP_ORGANISATION=Macloud
       - LDAP_DOMAIN=macloud.fr
-      - LDAP_ADMIN_PASSWORD=secret  # Mot de passe admin LDAP
+      - LDAP_ADMIN_PASSWORD=secret
       - LDAP_CONFIG_PASSWORD=secret
       - LDAP_BASE_DN=dc=macloud,dc=fr
     restart: unless-stopped
@@ -36,15 +43,19 @@ services:
   ldap-admin:
     image: ldapaccountmanager/lam:latest
     container_name: ldap_admin
-    ports:
-      - "8080:80"  # Interface web sur le port 8080
+    expose:
+      - "80"  # Port interne pour l'interface web
     volumes:
       - lam_config:/var/www/html/config
     environment:
-      - LAM_SKIP_PRECONFIGURE=true  # Configuration manuelle après démarrage
+      - LAM_SKIP_PRECONFIGURE=true
     depends_on:
       - ldap
     restart: unless-stopped
+    # Paramètres Dokploy : domaine et port pour l'interface LAM
+    labels:
+      - "dokploy.domain=ldap-admin.macloud.fr"  # Sous-domaine pour LAM
+      - "dokploy.port=80"  # Port interne du conteneur
 
 volumes:
   grist_data:
