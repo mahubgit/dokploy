@@ -33,9 +33,8 @@ services:
     environment:
       - LDAP_ADMIN_USERNAME=admin
       - LDAP_ADMIN_PASSWORD=secret
-      - LDAP_USERS=custom
       - LDAP_ROOT=dc=macloud,dc=fr
-      - LDAP_SKIP_DEFAULT_TREE=no
+      - LDAP_SKIP_DEFAULT_TREE=yes  # Ignore les utilisateurs par défaut
       - LDAP_CUSTOM_LDIF_DIR=/opt/bitnami/openldap/ldif
     restart: unless-stopped
     healthcheck:
