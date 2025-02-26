@@ -1,12 +1,12 @@
-issuer: http://grist.macloud.fr/dex  # HTTP interne, Dokploy gère HTTPS
+issuer: https://grist.macloud.fr/dex  # HTTPS requis par Grist
 storage:
   type: sqlite3
   config:
     file: /persist/dex.db
 web:
-  http: 0.0.0.0:5556
+  http: 0.0.0.0:5556  # Dex écoute en HTTP interne, Traefik/Dokploy gère HTTPS
 logger:
-  level: debug  # Pour diagnostiquer si nécessaire
+  level: debug  # Pour diagnostiquer
 connectors:
 - type: ldap
   id: ldap
@@ -27,6 +27,6 @@ connectors:
 staticClients:
 - id: grist
   redirectURIs:
-  - "https://grist.macloud.fr/oauth2/callback"  # HTTPS externe géré par Dokploy
+  - "https://grist.macloud.fr/oauth2/callback"  # HTTPS géré par Dokploy
   name: "Grist"
   secret: un-secret-tres-long-et-securise
