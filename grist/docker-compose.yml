@@ -4,22 +4,23 @@ services:
     image: gristlabs/grist-omnibus:latest
     container_name: grist_omnibus
     expose:
-      - "80"  # Port HTTP interne uniquement
+      - "80"
+      - "443"  # Réactiver 443 pour HTTPS interne
     volumes:
       - grist_data:/persist
       - ./dex.yaml:/custom/dex.yaml
     environment:
       - EMAIL=admin@macloud.fr
       - DOMAIN=grist.macloud.fr
-      - URL=http://grist.macloud.fr  # URL interne en HTTP
-      - HTTPS=manual  # Désactive Let's Encrypt dans Grist
+      - URL=https://grist.macloud.fr  # Retour à HTTPS
+      - HTTPS=auto  # Réactiver HTTPS interne
       - TEAM=macloud-team
     depends_on:
       - ldap
     restart: unless-stopped
     labels:
       - "dokploy.domain=grist.macloud.fr"
-      - "dokploy.port=80"  # Dokploy mappe HTTPS vers le port 80 interne
+      - "dokploy.port=443"  # Dokploy route vers 443
 
   ldap:
     image: bitnami/openldap:latest
