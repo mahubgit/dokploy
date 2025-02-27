@@ -5,9 +5,9 @@ services:
     image: gristlabs/grist:latest
     container_name: grist
     expose:
-      - "8484"
+      - "8484"  # Port interne de Grist
     volumes:
-      - grist_data:/persist
+      - grist_data:/persist  # Volume nommé pour les données persistantes
     environment:
       - GRIST_SESSION_SECRET=un-secret-tres-long-et-securise
       - GRIST_DEFAULT_EMAIL=admin@macloud.fr
@@ -26,11 +26,12 @@ services:
     image: authelia/authelia:latest
     container_name: authelia
     expose:
-      - "9091"
+      - "9091"  # Port interne d’Authelia
     volumes:
-      - authelia_config:/config
+      - ./authelia_config/config.yml:/config/configuration.yml  # Montage explicite
+      - ./authelia_config/users_database.yml:/config/users_database.yml  # Montage explicite
     environment:
-      - AUTHELIA_JWT_SECRET=un-secret-tres-long-et-securise
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=un-secret-tres-long-et-securise
       - AUTHELIA_SESSION_SECRET=un-autre-secret-tres-long
     restart: unless-stopped
     labels:
@@ -41,9 +42,9 @@ services:
     image: dexidp/dex:latest
     container_name: dex
     expose:
-      - "5556"
+      - "5556"  # Port interne de Dex
     volumes:
-      - dex_config:/config
+      - ./dex_config/dex.yaml:/config/dex.yaml  # Montage explicite
     environment:
       - DEX_CONFIG=/config/dex.yaml
     restart: unless-stopped
@@ -52,6 +53,4 @@ services:
       - "dokploy.port=5556"
 
 volumes:
-  grist_data:
-  authelia_config:
-  dex_config:
+  grist_data:  # Volume nommé pour Grist, géré par Docker/Dokploy
