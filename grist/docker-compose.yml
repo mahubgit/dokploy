@@ -45,7 +45,7 @@ services:
       - "5556"
     volumes:
       - ./dex_config/dex.yaml:/etc/dex/config.yaml
-      - dex_data:/config  # Volume persistant pour la base de données
+      - dex_data:/var/lib/dex  # Volume persistant pour la base de données
     command: ["dex", "serve", "/etc/dex/config.yaml"]
     restart: unless-stopped
     labels:
@@ -54,4 +54,4 @@ services:
 
 volumes:
   grist_data:
-  dex_data:  # Nouveau volume pour Dex
+  dex_data:
