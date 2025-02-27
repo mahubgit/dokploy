@@ -1,0 +1,26 @@
+issuer: https://dex.macloud.fr
+storage:
+  type: sqlite3
+  config:
+    file: /config/dex.db
+web:
+  http: 0.0.0.0:5556
+connectors:
+  - type: oidc
+    id: authelia
+    name: Authelia
+    config:
+      issuer: https://auth.macloud.fr
+      clientID: grist
+      clientSecret: un-secret-tres-long-et-securise
+      redirectURI: https://dex.macloud.fr/callback
+      scopes:
+        - openid
+        - profile
+        - email
+staticClients:
+  - id: grist
+    secret: un-secret-tres-long-et-securise
+    name: Grist
+    redirectURIs:
+      - "https://grist.macloud.fr/oauth2/callback"
