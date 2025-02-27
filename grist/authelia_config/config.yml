@@ -1,16 +1,37 @@
-jwt_secret: un-secret-tres-long-et-securise
+identity_validation:
+  reset_password:
+    jwt_secret: un-secret-tres-long-et-securise  # Remplace jwt_secret obsolète
+
 default_redirection_url: https://grist.macloud.fr
+
 server:
   host: 0.0.0.0
   port: 9091
+
 authentication_backend:
   file:
     path: /config/users_database.yml
+
 access_control:
   default_policy: deny
   rules:
     - domain: "grist.macloud.fr"
-      policy: two_factor  # Active la 2FA pour Grist (optionnel)
+      policy: two_factor  # Ou "one_factor" si vous ne voulez pas de 2FA
+
 session:
   secret: un-autre-secret-tres-long
-  domain: macloud.fr  # Domaine principal pour les cookies de session
+  domain: macloud.fr
+  cookies:
+    - name: authelia_session
+      domain: macloud.fr
+      authelia_url: https://auth.macloud.fr
+      default_redirection_url: https://grist.macloud.fr
+
+storage:
+  encryption_key: une-cle-de-chiffrement-longue-et-securisee  # Minimum 20 caractères
+  local:
+    path: /config/db.sqlite3  # Stockage local SQLite
+
+notifier:
+  filesystem:
+    filename: /config/notifications.txt  # Notification simple via fichier

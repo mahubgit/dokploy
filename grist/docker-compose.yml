@@ -5,7 +5,7 @@ services:
     image: gristlabs/grist:latest
     container_name: grist
     expose:
-      - "8484"  # Port interne de Grist
+      - "8484"
     volumes:
       - grist_data:/persist
     environment:
@@ -26,7 +26,7 @@ services:
     image: authelia/authelia:latest
     container_name: authelia
     expose:
-      - "9091"  # Port interne d'Authelia
+      - "9091"
     volumes:
       - authelia_config:/config
     environment:
@@ -41,7 +41,7 @@ services:
     image: dexidp/dex:latest
     container_name: dex
     expose:
-      - "5556"  # Port interne de Dex
+      - "5556"
     volumes:
       - dex_config:/config
     environment:
