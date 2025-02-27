@@ -45,7 +45,8 @@ services:
       - "5556"
     volumes:
       - ./dex_config/dex.yaml:/etc/dex/config.yaml
-    command: ["dex", "serve", "/etc/dex/config.yaml"]  # Forcer l’utilisation du fichier
+      - dex_data:/config  # Volume persistant pour la base de données
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
     restart: unless-stopped
     labels:
       - "dokploy.domain=dex.macloud.fr"
@@ -53,3 +54,4 @@ services:
 
 volumes:
   grist_data:
+  dex_data:  # Nouveau volume pour Dex
