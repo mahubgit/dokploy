@@ -39,7 +39,7 @@ services:
       - "dokploy.port=9091"
 
   dex:
-    image: dexidp/dex:latest
+    image: dexidp/dex:v2.35.0
     container_name: dex
     expose:
       - "5556"
