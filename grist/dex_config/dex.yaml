@@ -2,7 +2,7 @@ issuer: https://dex.macloud.fr
 storage:
   type: sqlite3
   config:
-    file: /persist/auth/dex.db  # Chemin persistant inspiré de l’exemple
+    file: /persist/auth/dex.db
 web:
   http: 0.0.0.0:5556
 logger:
