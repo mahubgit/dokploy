@@ -44,9 +44,8 @@ services:
     expose:
       - "5556"
     volumes:
-      - ./dex_config/dex.yaml:/etc/dex/config.yaml  # Chemin corrigé
-    environment:
-      - DEX_CONFIG=/etc/dex/config.yaml  # Chemin corrigé dans le conteneur
+      - ./dex_config/dex.yaml:/etc/dex/config.yaml
+    command: ["dex", "serve", "/etc/dex/config.yaml"]  # Forcer l’utilisation du fichier
     restart: unless-stopped
     labels:
       - "dokploy.domain=dex.macloud.fr"
