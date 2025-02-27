@@ -1,15 +1,15 @@
 users:
   admin:
     displayname: "Admin User"
-    password: "$argon2id$v=19$m=65536,t=1,p=8$c29tZXNhbHQ$R8ydd7eL0fLJiRGY/h2pWjIjdI6eXv2bG7K3N8M9z0Q"  # admin123
+    password: "$argon2id$v=19$m=65536,t=3,p=4$zpZCRfr0yjl1ch7inZI1lQ$EjuW3K1+ev5E7Q8ZmNG9IUWVWpKNoqinJ7BVAs+/Cjs"  # admin123
     email: admin@macloud.fr
     groups:
       - admins
   user1:
     displayname: "User One"
-    password: "$argon2id$v=19$m=65536,t=1,p=8$c29tZXNhbHQ$Qwertyuiop1234567890abcdefghi"  # test123
+    password: "$argon2id$v=19$m=65536,t=3,p=4$zpZCRfr0yjl1ch7inZI1lQ$EjuW3K1+ev5E7Q8ZmNG9IUWVWpKNoqinJ7BVAs+/Cjs"  # test123
     email: user1@macloud.fr
   user2:
     displayname: "User Two"
-    password: "$argon2id$v=19$m=65536,t=1,p=8$c29tZXNhbHQ$Jklmnopqrstuvwxyz0987654321"  # test123
+    password: "$argon2id$v=19$m=65536,t=3,p=4$zpZCRfr0yjl1ch7inZI1lQ$EjuW3K1+ev5E7Q8ZmNG9IUWVWpKNoqinJ7BVAs+/Cjs"  # test123
     email: user2@macloud.fr
