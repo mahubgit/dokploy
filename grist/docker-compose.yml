@@ -46,7 +46,7 @@ services:
     volumes:
       - ./dex_config/dex.yaml:/etc/dex/config.yaml
       - dex_data:/persist  # Volume persistant
-    command: ["sh", "-c", "mkdir -p /persist/auth && chmod 777 /persist/auth && dex serve /etc/dex/config.yaml"]
+    command: ["dex", "serve", "/etc/dex/config.yaml"]  # Sans mkdir ni chmod
     restart: unless-stopped
     labels:
       - "dokploy.domain=dex.macloud.fr"
