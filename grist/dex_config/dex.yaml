@@ -2,7 +2,7 @@ issuer: https://dex.macloud.fr
 storage:
   type: sqlite3
   config:
-    file: /var/lib/dex/dex.db  # Nouveau chemin dans un répertoire existant
+    file: /var/lib/dex/dex.db
 web:
   http: 0.0.0.0:5556
 connectors:
