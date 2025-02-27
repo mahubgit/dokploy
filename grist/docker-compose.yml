@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   grist:
-    image: gristlabs/grist:latest
+    image: gristlabs/grist:1.3.3
     container_name: grist
     expose:
       - "8484"
@@ -23,15 +23,15 @@ services:
       - "dokploy.port=8484"
 
   authelia:
-    image: authelia/authelia:latest
+    image: authelia/authelia:4.38.5
     container_name: authelia
     expose:
       - "9091"
     volumes:
-      - ./authelia_config/config.yml:/config/configuration.yml
+      - ./authelia_config/config.yml:/config/authelia.yml
       - ./authelia_config/users_database.yml:/config/users_database.yml
     environment:
-      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=un-secret-tres-long-et-securise
+      - AUTHELIA_JWT_SECRET=un-secret-tres-long-et-securise
       - AUTHELIA_SESSION_SECRET=un-autre-secret-tres-long
     restart: unless-stopped
     labels:
@@ -39,14 +39,14 @@ services:
       - "dokploy.port=9091"
 
   dex:
-    image: dexidp/dex:v2.35.0
+    image: dexidp/dex:master
     container_name: dex
     expose:
       - "5556"
     volumes:
       - ./dex_config/dex.yaml:/etc/dex/config.yaml
-      - dex_data:/var/lib/dex  # Volume persistant pour la base de données
-    command: ["dex", "serve", "/etc/dex/config.yaml"]
+      - dex_data:/var/lib/dex
+    command: ["sh", "-c", "mkdir -p /var/lib/dex && chmod 777 /var/lib/dex && dex serve /etc/dex/config.yaml"]
     restart: unless-stopped
     labels:
       - "dokploy.domain=dex.macloud.fr"
