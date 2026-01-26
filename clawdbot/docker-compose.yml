@@ -6,8 +6,6 @@ services:
     container_name: clawdbot-gateway
     restart: unless-stopped
     env_file: .env
-    ports:
-      - "18789:18789"  # Interne au container, exposé via Dokploy reverse proxy
     volumes:
       - "clawdbot-config:/home/node/.clawdbot"
       - "clawdbot-workspace:/home/node/clawd"
@@ -34,3 +32,4 @@ networks:
   default:
     external:
       name: dokploy_default
+
