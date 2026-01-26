@@ -1,10 +1,7 @@
-version: "3.9"
-
 services:
+
   clawdbot-gateway:
-    image: clawdbot/clawdbot:latest
-    container_name: clawdbot-gateway
-    restart: unless-stopped
+    image: clawdbot:local   # image du Dockerfile
     env_file: .env
     volumes:
       - "clawdbot-config:/home/node/.clawdbot"
@@ -15,8 +12,7 @@ services:
       --port 18789
 
   clawdbot-cli:
-    image: clawdbot/clawdbot:latest
-    container_name: clawdbot-cli
+    image: clawdbot:local
     env_file: .env
     entrypoint: ["docker-entrypoint.sh"]
     command: ["clawdbot", "cli"]
@@ -27,9 +23,3 @@ services:
 volumes:
   clawdbot-config:
   clawdbot-workspace:
-
-networks:
-  default:
-    external:
-      name: dokploy_default
-
