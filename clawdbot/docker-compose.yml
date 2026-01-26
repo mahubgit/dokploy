@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  clawdbot-gateway:
+    image: clawdbot/clawdbot:latest
+    container_name: clawdbot-gateway
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "18789:18789"  # Interne au container, exposé via Dokploy reverse proxy
+    volumes:
+      - "clawdbot-config:/home/node/.clawdbot"
+      - "clawdbot-workspace:/home/node/clawd"
+    command: >
+      clawdbot gateway
+      --config /home/node/.clawdbot/config.yaml
+      --port 18789
+
+  clawdbot-cli:
+    image: clawdbot/clawdbot:latest
+    container_name: clawdbot-cli
+    env_file: .env
+    entrypoint: ["docker-entrypoint.sh"]
+    command: ["clawdbot", "cli"]
+    volumes:
+      - "clawdbot-config:/home/node/.clawdbot"
+      - "clawdbot-workspace:/home/node/clawd"
+
+volumes:
+  clawdbot-config:
+  clawdbot-workspace:
+
+networks:
+  default:
+    external:
+      name: dokploy_default
