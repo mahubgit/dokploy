@@ -4,7 +4,7 @@
 
 - Serveur Dokploy fonctionnel
 - Docker & Docker Compose installés
-- Accès à Ollama externe : http://ssh.macloud.fr:11434
+- Accès à Ollama externe : http://localhost:11434
 
 ---
 
@@ -29,3 +29,4 @@ Dokploy créera automatiquement les volumes Docker persistants :
 
 ```bash
 docker compose run --rm clawdbot-cli onboard
+
